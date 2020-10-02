@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     private var numeroDecimal:Boolean = false // Variable para saber si es un numero decimal (float o Double)
     private var operacion:String = "NO_OPERACION"
-    private var numero1:Double = 0.0
-    private var numero2:Double = 0.0
+    private var numero1:Float = 0.0F
+    private var numero2:Float = 0.0F
     private var nuevoNumero:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,32 +57,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun ResetCalculadora(){
+        //------------------------------------
         // Método que inicializa todas la variables
+        //------------------------------------
         tvPantalla.text = ("0")
         this.numeroDecimal = false
         this.operacion = ""
-        this.numero1 = 0.0
-        this.numero2 = 0.0
+        this.numero1 = 0.0F
+        this.numero2 = 0.0F
         this.nuevoNumero = false
     }
 
     private fun clickOperacion(op:String){
+        //------------------------------------
+        // Método que asigna la operación ha realizar
+        //------------------------------------
         this.operacion = op
+        this.numero1 = tvPantalla.text.toString().toFloat()
         this.numeroDecimal = false
         this.nuevoNumero = true
     }
 
     private fun clickIgual(){
+        //------------------------------------
         // Método que hace las operaciones al pulsar =
-        var resultado: Double = 0.0
+        //------------------------------------
+        var resultado: Float = 0.0F
 
         when (this.operacion){
             "SUMAR" -> {resultado = this.numero1 + this.numero2}
             "RESTAR" -> {resultado = this.numero1 - this.numero2}
             "MULTIPLICAR" -> {resultado = this.numero1 * this.numero2}
             "DIVIDIR" -> {
-                    if (this.numero2 != 0.0) {
+                    if (this.numero2 != 0.0F) {
                         resultado = this.numero1 / this.numero2
+                        println("${this.numero1}/${this.numero2} = $resultado")
                     } else {
                         Toast.makeText(this, "Error: División entre CERO",5).show()
                         ResetCalculadora()
@@ -102,7 +111,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun clickBotonesNum(tecla:String){
-        //Método que va añadiendo los números
+        //------------------------------------
+        // Método que va añadiendo los números
+        //------------------------------------
         if (this.nuevoNumero) {
             tvPantalla.text = "0"
             this.nuevoNumero = false
@@ -127,9 +138,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (this.operacion == "NO_OPERACION") {
-            this.numero1 = tvPantalla.text.toString().toDouble()
+            this.numero1 = tvPantalla.text.toString().toFloat()
         } else {
-            this.numero2 = tvPantalla.text.toString().toDouble()
+            this.numero2 = tvPantalla.text.toString().toFloat()
         }
     }
 }
